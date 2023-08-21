@@ -7,6 +7,7 @@ Author: Raigon Augustin
 Date: 18.08.2023
 """
 
+
 class JokeApiConfig:
     christmas_joke_api_url = 'https://v2.jokeapi.dev/joke/Christmas?blacklistFlags=nsfw,religious,racist,sexist,explicit'
     programming_joke_api_url = 'https://v2.jokeapi.dev/joke/Programming,Christmas?blacklistFlags=nsfw,religious,racist,sexist,explicit&type=single'
