@@ -7,4 +7,4 @@ numpy~=1.25.2
 evaluate~=0.4.0
 google-api-python-client~=2.97.0
 git+https://github.com/huggingface/accelerate
-
+pytest~=7.4.2

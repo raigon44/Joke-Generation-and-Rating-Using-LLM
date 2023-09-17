@@ -1,0 +1,1 @@
+This directory stores the trained GPT-2 generator model

@@ -1,0 +1,1 @@
+This directory stores the BERT model fine-tuned to rate jokes
