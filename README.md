@@ -8,7 +8,7 @@ Following are the objective of this project:
   - Create an interactive humor-oriented bot which is capable of generating jokes from different genre.
 
 This project was done as part of the [AI Comedy Club Challenge](https://github.com/konfuzio-ai/ai-comedy-club).
-### Steps to replicate the Bot
+### Steps to replicate the project
 
 #### Install Dependencies
 
@@ -66,6 +66,50 @@ The dataset underwent the following preprocessing steps:
 - Removed toxic jokes using Google's perspective API
 
 ### Models used
+
+I have fine-tuned two models for this project, one for joke generation and another for rating the jokes.
+
+#### Joke Generation
+
+For the task of joke generation, I have used the [GPT-2 model](https://huggingface.co/gpt2). After preprocessing the rjokes dataset contains jokes of 10 different humor levels, 1 being the least funny joke and 10 being the most funny joke. I added a prompt to the begining of each joke, the added prompt depends on the humor level of the joke. This was done so that, I can make the joke bot generate diverse jokes by randomly selecting a prompt from the available 10 prompt. Below I have provided the prompts that were used.
+
+<pre>
+  self.prompts = {
+            10: "Give me a hilarious joke that deserves a perfect 10: ",
+            9: "Let's challenge the comedy genius within you. Craft a joke that is an absolute 9 in humor: ",
+            8: "Make me smile with a joke worth a solid 8: ",
+            7: "Time to test your wit. Create a rib-tickler with a humor rating of 7: ",
+            6: "I need a side-splitting joke that's at least an 6 on the humor scale: ",
+            5: "Tickle my funny bone with a joke that falls between 5 and 6 on the humor scale:",
+            4: "Generate a joke with a humor score of 4:",
+            3: "Time for some light-hearted humor, a casual joke ranking around 3 should do:",
+            2: "Even the best comedians start somewhere. Share a joke with a humor level around 2:",
+            1: "Generate a joke which not that funny:"
+        }
+</pre>
+
+The hyperparameters used for joke generator model fine-tuning are maintained in *src/config.py* file. Below are the hyperparameters used.
+
+<pre>
+  class JokeGeneratorModelConfig:
+    task = "generation"
+    model_name = "gpt2"
+    output_dir = 'models/joke_gen_model/output'
+    num_train_epochs = 4
+    per_device_train_batch_size = 4
+    per_device_eval_batch_size = 4
+    save_steps = 1000
+    save_total_limit = 2
+    evaluation_strategy = 'epoch'
+    logging_steps = 500
+    learning_rate = 2e-5
+    logging_dir = 'models/joke_gen_model/logs'
+    report_to = "none"
+</pre>
+
+#### Rating the Jokes
+
+
 
 ### User interaction
 
