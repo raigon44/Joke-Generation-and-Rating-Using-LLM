@@ -47,7 +47,7 @@ python src/train_models.py
 
 In this section we will discuss the dataset used for model training and the preprocessing steps done.
 
-#### About rjokes dataset
+#### rjokes Dataset
 rJokes Dataset [1]: a collection of over 550,000 jokes posted over an 11-year period on the Reddit r/Jokes subreddit channel. This dataset also provides quantitative metrics for the level of humor (0 - 11) in each joke, determined by subreddit user feedback (upvoted and downvoted).
 
 After the exploration of the dataset, for this challenge, I am only planning to use jokes with labels from 1 to 10.
@@ -65,7 +65,7 @@ The dataset underwent the following preprocessing steps:
 - Removed jokes which have less than 5 words
 - Removed toxic jokes using Google's perspective API
 
-### Models used
+### Models Used
 
 I have fine-tuned two models for this project, one for joke generation and another for rating the jokes.
 
@@ -109,7 +109,30 @@ The hyperparameters used for joke generator model fine-tuning are maintained in 
 
 #### Rating the Jokes
 
+For the task of joke rating I have used the [BERT-BASE](https://huggingface.co/bert-base-uncased) model. The preprocessed rjokes dataset was used for fine-tuning. A classification head was added to the BERT model and was fine-tuned to predict the humor level of the joke. The hyperparameters used for joke rater model fine-tuning are maintained in *src/config.py* file. Below are the hyperparameters used.
 
+<pre>
+  class JokeRaterModelConfig:
+    task = "classification"
+    model_name = "bert-base-uncased"
+    num_labels = 10
+    output_dir = 'models/joke_rater_model/output'
+    num_train_epochs = 5
+    per_device_train_batch_size = 8
+    per_device_eval_batch_size = 8
+    save_steps = 1000
+    save_total_limit = 2
+    evaluation_strategy = 'epoch'
+    logging_steps = 500
+    learning_rate = 2e-5
+    logging_dir = 'models/joke_rater_model/logs'
+    report_to = "none"
+</pre>
 
-### User interaction
+### User Interaction
+
+Apart from the jokes generated using the GPT-2 model, joke-bot can also generate two other types of jokes: Christmas and Programming jokes. These are jokes created using the [Jokes API](https://sv443.net/jokeapi/v2/). Everytime a user requests a joke of this type, we send a get request to the Jokes API and recieve a joke which is shown to the user. 
+The joke bot also considers the user's mood and joke preference while deciding which joke should be shown to the user.
+
+Additionally, once the joke is shown to the user, joke bot asks the user to rate the joke (from 1 - 10). This data can be later used for improving the model preformance as well. Also the rating for the joke from the joke rater model is also shown to the user.
 
