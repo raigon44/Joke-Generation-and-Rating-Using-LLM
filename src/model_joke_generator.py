@@ -11,6 +11,7 @@ Date: 17.08.2023
 # Import necessary modules and classes
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, DataCollatorForLanguageModeling
 import pandas as pd
+from logger import logger
 
 
 class ModelJokeGenerator:
@@ -70,6 +71,6 @@ class ModelJokeGenerator:
         train_history_frame = pd.DataFrame(trainer.state.log_history)
 
         evaluation_results = trainer.evaluate(test_dataset)
-        print(evaluation_results)
+        logger.info(evaluation_results)
 
         return train_history_frame

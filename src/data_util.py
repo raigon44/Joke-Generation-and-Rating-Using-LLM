@@ -16,6 +16,7 @@ import pandas as pd
 from preprocessing import Preprocessing
 from sklearn.model_selection import train_test_split
 from datasets import load_dataset, Dataset
+from logger import logger
 
 
 def load_data():
@@ -53,13 +54,13 @@ def load_data():
             with open(config.FileConfig.uncompressed_data_file, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
 
-        print('File downloaded and decompressed successfully!')
+        logger.info('File downloaded and decompressed successfully!')
 
         return pd.read_csv(config.FileConfig.uncompressed_data_file, delimiter='\t', error_bad_lines=False)
 
     else:
-        print('Failed to download the file.')
-        exit(0)
+        logger.error('Failed to download the file.')
+        exit(1)
 
     return
 

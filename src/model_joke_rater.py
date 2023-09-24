@@ -14,6 +14,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 import evaluate
 import pandas as pd
 import numpy as np
+from logger import logger
 
 
 class ModelJokeRater:
@@ -92,6 +93,6 @@ class ModelJokeRater:
         train_history_frame = pd.DataFrame(trainer.state.log_history)
 
         evaluation_results = trainer.evaluate(test_dataset)
-        print(evaluation_results)
+        logger.info(evaluation_results)
 
         return train_history_frame
